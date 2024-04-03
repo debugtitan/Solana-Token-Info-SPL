@@ -12,7 +12,6 @@ bot.command("start", async (ctx) => {
 
 bot.command("search", async (ctx) => {
     const userMessage = ctx.message.text.split(" ")
-    console.log(userMessage.length,userMessage)
     if (userMessage.length == 2 ){
         return await ctx.reply(`searching token ${userMessage[1]}`)
     }

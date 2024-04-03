@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@metaplex-foundation/js": "^0.20.1",
+    "@solana/spl-token-registry": "^0.2.4574",
+    "@solana/web3.js": "^1.91.3",
     "dotenv": "^16.4.5",
     "telegraf": "^4.16.3"
   }
