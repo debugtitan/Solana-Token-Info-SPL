@@ -1,7 +1,7 @@
 # Solana-Token-Info-SPL-
 Telegram bot that can source and provide  info on Solana SPL tokens.
 
-
+[Demo](https://t.me/spl_token_info_bot)
 ## want to run it yourself?
 Clone this project
 
