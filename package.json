@@ -1,4 +1,11 @@
 {
+  "name": "spl-token-meta-data",
+  "version": "0.0.1",
+  "description": "Telegram bot that can source and provide  info on Solana SPL tokens",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node ./bot.js"
+  },
   "dependencies": {
     "@metaplex-foundation/js": "^0.20.1",
     "@solana/spl-token-registry": "^0.2.4574",
