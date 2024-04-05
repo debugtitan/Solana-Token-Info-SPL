@@ -36,6 +36,7 @@ class SPLMetaData {
     const mintAddress = new PublicKey(address);
     const metaDataAccountInfo =
       await this.connection.getAccountInfo(mintAddress);
+      console.log(metaDataAccountInfo)
     let tokenName;
     let tokenSymbol;
     let tokenLogo;
@@ -44,55 +45,58 @@ class SPLMetaData {
     let owner;
     let supply;
 
-    if (metaDataAccountInfo) {
-      const token = await this.metaplex
-        .nfts()
-        .findByMint({mintAddress: mintAddress});
-
-      tokenName = token.json.name;
-      tokenSymbol = token.json.symbol;
-      tokenLogo = token.json.image;
-      description = token.json.description;
-      decimal = token.mint.decimals;
-      owner = token.updateAuthorityAddress.toBase58();
-      supply = token.mint.supply.basisPoints
-    } else {
-      const provider =
-        await new TokenListProvider().resolve();
-      const tokenList = provider
-        .filterByChainId(ENV.MainnetBeta)
-        .getList();
-      const tokenMap = tokenList.reduce((map, item) => {
-        map.set(item.address, item);
-      }, new Map());
-
-      const token = tokenMap.get(mintAddress);
-      tokenName = token.json.name;
-      tokenSymbol = token.json.symbol;
-      tokenLogo = token.json.image;
-      description = token.json.description;
-      decimal = token.mint.decimals;
-      owner = token.updateAuthorityAddress.toBase58();
-      supply = token.mint.supply.basisPoints
+    try{
+      if (metaDataAccountInfo) {
+        const token = await this.metaplex
+          .nfts()
+          .findByMint({mintAddress: mintAddress});
+  
+        tokenName = token.json.name;
+        tokenSymbol = token.json.symbol;
+        tokenLogo = token.json.image;
+        description = token.json.description;
+        decimal = token.mint.decimals;
+        owner = token.updateAuthorityAddress.toBase58();
+        supply = token.mint.supply.basisPoints
+      } else {
+        const provider =
+          await new TokenListProvider().resolve();
+        const tokenList = provider
+          .filterByChainId(ENV.MainnetBeta)
+          .getList();
+        const tokenMap = tokenList.reduce((map, item) => {
+          map.set(item.address, item);
+        }, new Map());
+  
+        const token = tokenMap.get(mintAddress);
+        tokenName = token.json.name;
+        tokenSymbol = token.json.symbol;
+        tokenLogo = token.json.image;
+        description = token.json.description;
+        decimal = token.mint.decimals;
+        owner = token.updateAuthorityAddress.toBase58();
+        supply = token.mint.supply.basisPoints
+      }
+  
+      let tokenInfo = {
+        tokenName: tokenName,
+        tokenSymbol: tokenSymbol,
+        tokenLogo: tokenLogo,
+        description: description,
+        decimal: decimal,
+        owner: owner,
+        supply: supply
+      };
+  
+      return tokenInfo;
+    }catch (err){
+      return false
     }
-
-    let tokenInfo = {
-      tokenName: tokenName,
-      tokenSymbol: tokenSymbol,
-      tokenLogo: tokenLogo,
-      description: description,
-      decimal: decimal,
-      owner: owner,
-      supply: supply
-    };
-
-    return tokenInfo;
-  }
+    }
 }
 
 class SPLData {
   defaultConfig() {
-    console.log(SPLData);
     return SPL_CONFIG;
   }
   constructor(config = false) {

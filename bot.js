@@ -17,14 +17,21 @@ bot.command("search", async ctx => {
     let data = await SPL.GetTokenInfo(userMessage[1]);
     console.log(data);
     let tokenInfo = `Name:${data.tokenName} (${data.tokenSymbol})\n\n${data.description}\n\nOwner: _${data.owner}_\n\nDecimal: ${data.decimal}\n`;
-    if (data.tokenLogo) {
-      await ctx.sendPhoto(data.tokenLogo, {
-        caption: `${data.tokenSymbol} Logo`,
+    if(data){
+      if (data.tokenLogo) {
+        await ctx.sendPhoto(data.tokenLogo, {
+          caption: `${data.tokenSymbol} Logo`,
+        });
+      }
+      return await ctx.reply(tokenInfo, {
+        parse_mode: "Markdown",
       });
     }
-    return await ctx.reply(tokenInfo, {
-      parse_mode: "Markdown",
-    });
+    else{
+      return await ctx.reply("Resources not found!\npass correct contract", {
+        parse_mode: "Markdown",
+      });
+    }
   }
   await ctx.reply("*Usage*\n/search [contract]", {
     parse_mode: "Markdown",
