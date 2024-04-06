@@ -15,12 +15,12 @@ bot.command("search", async ctx => {
   const userMessage = ctx.message.text.split(" ");
   if (userMessage.length == 2) {
     let data = await SPL.GetTokenInfo(userMessage[1]);
-    console.log(data);
-    let tokenInfo = `Name:${data.tokenName} (${data.tokenSymbol})\n\n${data.description}\n\nOwner: _${data.owner}_\n\nDecimal: ${data.decimal}\n`;
+    //console.log(data);
+    let tokenInfo = `Name:${data.tokenName} (${data.tokenSymbol})\n\n${data.description}\n\nOwner: _${data.owner}_\n\nDecimal: ${data.decimal}\n\nCurrent supply: ${data.supply}`;
     if(data){
       if (data.tokenLogo) {
         await ctx.sendPhoto(data.tokenLogo, {
-          caption: `${data.tokenSymbol} Logo`,
+          caption: `${data.tokenSymbol}`,
         });
       }
       return await ctx.reply(tokenInfo, {
